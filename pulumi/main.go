@@ -16,6 +16,29 @@ func main() {
 			return err
 		}
 
+
+		_, err = storage.NewBucketObject(ctx, "index.html", &storage.BucketObjectArgs{
+			Bucket: bucket.Name,
+			Source: pulumi.NewFileAsset("index.html"),
+		})
+		if err != nil {
+			return err
+		}
+
+
+		_, err = storage.NewBucketIAMBinding(ctx, "my-bucket-binding", &storage.BucketIAMBindingArgs{
+			Bucket: bucket.Name,
+			Role:   pulumi.String("roles/storage.objectViewer"),
+			Members: pulumi.StringArray{
+				pulumi.String("allUsers"),
+			},
+		})
+		if err != nil {
+			return err
+		}
+
+
+
 		// Export the DNS name of the bucket
 		ctx.Export("bucketName", bucket.Url)
 		return nil
