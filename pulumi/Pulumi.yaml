@@ -1,0 +1,7 @@
+name: go_gcp
+runtime: go
+description: hehe
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: gcp-go
